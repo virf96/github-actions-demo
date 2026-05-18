@@ -1,0 +1,34 @@
+name: Dummy CI Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: |
+          echo "Instalando dependencias dummy..."
+          # Agrega tus comandos reales de instalación aquí
+
+      - name: Run tests
+        run: |
+          echo "Ejecutando pruebas dummy..."
+          # Agrega tus comandos reales de pruebas aquí
+
+      - name: Finish
+        run: echo "Pipeline dummy completado con éxito."
