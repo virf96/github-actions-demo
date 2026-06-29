@@ -16,5 +16,7 @@ def ejecutar_sql(path_sql):
 
 
 def actualizar_gold():
+    ejecutar_sql("sql/create_schema.sql")
+    ejecutar_sql("sql/create_posts_silver_ext.sql")
     ejecutar_sql("sql/gold_posts.sql")
     ejecutar_sql("sql/gold_users.sql")
