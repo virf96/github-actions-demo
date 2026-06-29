@@ -1,0 +1,5 @@
+BUCKET_NAME = "datos-002"
+API_NAME = "jsonplaceholder"
+URL = "https://jsonplaceholder.typicode.com/posts"
+PROJECT_ID = "project-73c1e9e8-7da9-4b68-ad8"
+DATASET = "datos_pipeline"
