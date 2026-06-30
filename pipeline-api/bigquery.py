@@ -1,25 +1,22 @@
 from google.cloud import bigquery
 
-from config import DATASET, PROJECT_ID
+from config import PROJECT_ID
 
 
-def actualizar_gold():
-    """Crea o actualiza la tabla Gold en BigQuery."""
+def execute_sql_file(path_sql):
     client = bigquery.Client(project=PROJECT_ID)
 
-    query = f"""
-    CREATE OR REPLACE TABLE `{PROJECT_ID}.{DATASET}.posts_gold` AS
-    SELECT
-        user_id,
-        COUNT(*) AS total_posts,
-        MIN(post_id) AS primer_post_id,
-        MAX(post_id) AS ultimo_post_id
-    FROM `{PROJECT_ID}.{DATASET}.posts_silver_ext`
-    GROUP BY user_id
-    ORDER BY user_id
-    """
+    with open(path_sql, "r", encoding="utf-8") as file:
+        query = file.read()
 
     job = client.query(query)
     job.result()
 
-    print(f"Tabla Gold actualizada: {PROJECT_ID}.{DATASET}.posts_gold")
+    print(f"BigQuery: SQL ejecutado correctamente: {path_sql}")
+
+
+def actualizar_gold():
+    execute_sql_file("sql/create_schema.sql")
+    execute_sql_file("sql/create_posts_silver_ext.sql")
+    execute_sql_file("sql/gold_posts.sql")
+    execute_sql_file("sql/gold_users.sql")

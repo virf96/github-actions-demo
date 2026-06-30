@@ -27,7 +27,6 @@ def leer_bronze():
 
 
 def prepara_silver(data):
-    """Preprocesa y estructura los datos para la capa Silver."""
     registros = []
     for item in data:
         registros.append({
@@ -40,7 +39,6 @@ def prepara_silver(data):
 
 
 def guardar_silver(data):
-    """Guarda el JSON preprocesado en la capa Silver como Parquet."""
     hoy = datetime.now(timezone.utc)
     ruta = (
         f"Silver/{API_NAME}/"
@@ -52,15 +50,15 @@ def guardar_silver(data):
 
     df = pd.DataFrame(prepara_silver(data))
     upload_parquet(ruta, df)
-    print(f"Silver: archivo guardado en gs://{BUCKET_NAME}/{ruta}")
+    print(f"Transform: archivo Silver guardado en gs://{BUCKET_NAME}/{ruta}")
 
 
 def main():
-    print("Silver: leyendo Bronze...")
+    print("Transform: leyendo Bronze...")
     datos = leer_bronze()
-    print(f"Silver: registros leídos: {len(datos)}")
+    print(f"Transform: registros leídos: {len(datos)}")
     guardar_silver(datos)
-    print("Silver: proceso finalizado.")
+    print("Transform: proceso finalizado.")
 
 
 if __name__ == "__main__":

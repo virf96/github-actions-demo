@@ -1,22 +1,16 @@
 from google.cloud import bigquery
 
-from config import PROJECT_ID, DATASET
+from bigquery import execute_sql_file
 
 
-def ejecutar_sql(path_sql):
-    client = bigquery.Client(project=PROJECT_ID)
-
-    with open(path_sql, "r", encoding="utf-8") as file:
-        query = file.read()
-
-    job = client.query(query)
-    job.result()
-
-    print(f"SQL ejecutado correctamente: {path_sql}")
+def main():
+    print("Gold: ejecutando consultas SQL...")
+    execute_sql_file("sql/create_schema.sql")
+    execute_sql_file("sql/create_posts_silver_ext.sql")
+    execute_sql_file("sql/gold_posts.sql")
+    execute_sql_file("sql/gold_users.sql")
+    print("Gold: proceso finalizado.")
 
 
-def actualizar_gold():
-    ejecutar_sql("sql/create_schema.sql")
-    ejecutar_sql("sql/create_posts_silver_ext.sql")
-    ejecutar_sql("sql/gold_posts.sql")
-    ejecutar_sql("sql/gold_users.sql")
+if __name__ == "__main__":
+    main()
